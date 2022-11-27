@@ -5,59 +5,42 @@ import processing.core.*;
 import java.util.List;
 
 public class Boid {
-    PVector position;
-    PVector velocity;
-    PVector acceleration;
-    float radius;
-    int speedLimit = 1;
-    float accelLimit = 0.02f;
-    int visionField = 40;
+    private PVector position;
+    private PVector velocity;
+    private float radius;
+    private final float speedLimit = 2.5f;
+    private final int visionField = 40;
 
 
     public Boid(PVector position) {
         this.position = position;
-        this.velocity = PVector.random3D();
-        this.acceleration = new PVector(0, 0, 0);
-    }
-
-    /** Steer is the acceleration. AKA how it wants the velocity to change.
-     * Steer = Desired - Velocity. */
-    private PVector steer(PVector desired) {
-        // desired is the direction we want to go
-        desired.setMag(speedLimit);
-        // PVector pointing from our velocity to desired velocity.
-        // We must take into account its current velocity.
-        PVector steeringAccel = PVector.sub(desired, velocity);
-        steeringAccel.limit(accelLimit); // acceleration as high as possible
-        return steeringAccel;
+        this.velocity = PVector.random3D().setMag(speedLimit);
     }
 
     /** Returns a PVector that describes the desired velocity */
-    public PVector towardsCenter(List<Boid> flock){
-        PVector neighbors = new PVector(0, 0, 0);
+    public void towardsCenter(List<Boid> flock){
+        PVector neighborCenter = new PVector(0, 0, 0);
         int total = 0;
         for (Boid other : flock) {
-            if (other != this) {
-                float d = other.position.dist(this.position);
-                if (d > 0 && d < visionField) {
-                    neighbors.add(other.position);
-                    total++;
-                }
+            float d = other.position.dist(this.position);
+            if (d > 0 && d < visionField) {
+                neighborCenter.add(other.position);
+                total++;
             }
         }
 
         if (total > 0) {
-            neighbors.div(total);
-            // PVector from current position pointing to average position
-            // This represents the desired velocity if it were static
-            PVector desired = PVector.sub(neighbors, this.position);
-            return steer(desired);
+            neighborCenter.div(total);
+            PVector direction = PVector.sub(neighborCenter, position);
+
+            direction.setMag(speedLimit);
+            direction.mult(0.05f);
+            velocity.add(direction);
         }
-        return neighbors;
     }
 
-    public PVector collisionAvoidance(List<Boid> flock) {
-        int desiredSpace = 20;
+    public void collisionAvoidance(List<Boid> flock) {
+        int desiredSpace = 10;
         PVector avgDirection = new PVector(0, 0, 0);
         int total = 0;
         for (Boid other : flock) {
@@ -76,13 +59,13 @@ public class Boid {
 
         if (total > 0) {
             avgDirection.div(total);
-            // avgDirection is desired. We find the steer direction
-            return steer(avgDirection);
+            avgDirection.setMag(speedLimit);
+            avgDirection.mult(0.4f);
+            velocity.add(avgDirection);
         }
-        return avgDirection;
     }
 
-    public PVector matchVelocity(List<Boid> flock) {
+    public void matchVelocity(List<Boid> flock) {
         PVector avgVelocity = new PVector(0, 0, 0);
         int total = 0;
         for (Boid other : flock) {
@@ -96,9 +79,10 @@ public class Boid {
         }
         if (total > 0) {
             avgVelocity.div(total);
-            return steer(avgVelocity);
+            avgVelocity.setMag(speedLimit);
+            avgVelocity.mult(0.03f);
+            velocity.add(avgVelocity);
         }
-        return avgVelocity;
     }
 
     private void bordersUpdate(App window) {
@@ -113,32 +97,17 @@ public class Boid {
         if (position.z < padding) correction.z = 1;
         else if (position.z > window.dimensions.z - padding) correction.z = -1;
 
-        // Correction is desired vector. We must offset this with our current velocity.
-        float turnFactor = 3f;
-        PVector correctionAccel = correction.setMag(accelLimit).mult(turnFactor);
-        acceleration.add(correctionAccel);
+        correction.setMag(speedLimit);
+        correction.mult(1f);
+        velocity.add(correction);
     }
 
-    /** We need information about the flock to update */
-    private void herdUpdate(List<Boid> flock) {
-        /** These are accelerations */
-        PVector cohesion = towardsCenter(flock);
-        PVector separate = collisionAvoidance(flock);
-        PVector align = matchVelocity(flock);
-
-        cohesion.mult(0f);
-        separate.mult(0f);
-        align.mult(1f);
-
-        acceleration.add(cohesion);
-        acceleration.add(separate);
-        acceleration.add(align);
-    }
-
-    private void positionUpdate() {
-        velocity.add(acceleration);
-        position.add(velocity);
-        acceleration.mult(0);
+    private void positionUpdate(List<Boid> flock) {
+        this.collisionAvoidance(flock);
+        this.matchVelocity(flock);
+        this.towardsCenter(flock);
+        this.velocity.limit(speedLimit);
+        this.position.add(this.velocity);
     }
 
     private float map(float x, float startX, float endX, float startY, float endY) {
@@ -147,13 +116,12 @@ public class Boid {
     }
 
     public void render(App window, List<Boid> flock) {
-        this.herdUpdate(flock);
         this.bordersUpdate(window);
-        this.positionUpdate();
+        this.positionUpdate(flock);
 
-        radius = map(position.z, 0, window.dimensions.z, 13, 4);
-        int alphaColor = (int) map(position.z, 0, window.dimensions.z, 180, 70);
-        window.fill(0, alphaColor);
-        window.circle(position.x, position.y, radius);
+//        radius = map(position.z, 0, window.dimensions.z, 13, 4);
+//        int alphaColor = (int) map(position.z, 0, window.dimensions.z, 180, 70);
+//        window.fill(0, alphaColor);
+        window.circle(position.x, position.y, 3);
     }
 }

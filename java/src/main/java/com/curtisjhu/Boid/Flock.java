@@ -14,13 +14,9 @@ public class Flock {
         window = instance;
         flock = new ArrayList<>();
 
-//        float maxLength = Math.min(window.dimensions.x, window.dimensions.y);
         PVector center = window.dimensions.copy().div(2);
         for (int i = 0; i < size; i++){
-//            float randScalar = (float) Math.random() * maxLength;
-//            PVector initPosition = PVector.random3D().mult(randScalar);
-//            initPosition.add(center);
-            flock.add(new Boid(center));
+            flock.add(new Boid(center.copy()));
         }
     }
 
