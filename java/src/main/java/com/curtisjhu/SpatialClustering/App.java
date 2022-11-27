@@ -6,7 +6,7 @@ public class App extends PApplet {
 
     @Override
     public void settings() {
-        randomSeed(20);
+        randomSeed(10);
         size(640, 480);
 
     }
@@ -38,6 +38,7 @@ public class App extends PApplet {
                 circle(position.x, position.y, individualSize);
             }
         }
+        noLoop();
     }
 
     public static void main(String[] args) {

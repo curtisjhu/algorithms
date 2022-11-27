@@ -2,6 +2,7 @@ package com.curtisjhu.LorenzAttractor;
 
 import processing.core.*;
 
+/** Fix bugs soon */
 class App extends PApplet {
 	LorenzSystem system;
 	PVector dimensions;
