@@ -35,6 +35,11 @@
       <artifactId>processing-core-4</artifactId>
       <version>4.0.1</version>
     </dependency>
+    <dependency>
+      <groupId>io.jenetics</groupId>
+      <artifactId>jenetics</artifactId>
+      <version>7.1.1</version>
+    </dependency>
   </dependencies>
 
   <build>

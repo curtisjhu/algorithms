@@ -13,7 +13,7 @@ import processing.core.*;
 public class App extends PApplet {
 
     Flock flock;
-    PVector dimensions;
+    public PVector dimensions;
 
     @Override
     public void settings() {
