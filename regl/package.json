@@ -4,12 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "more "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "regl": "^2.1.0"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "grunt": "^1.5.3",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-htmlmin": "^3.1.0",
+    "grunt-contrib-jshint": "^3.2.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "tinyify": "^4.0.0"
   }
 }
