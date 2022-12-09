@@ -4,10 +4,11 @@ import processing.core.*;
 
 import java.util.List;
 
+import static java.lang.Math.round;
+
 public class Boid {
     private PVector position;
     private PVector velocity;
-    private float radius;
     private final float speedLimit = 2.5f;
     private final int visionField = 40;
 
@@ -18,7 +19,7 @@ public class Boid {
     }
 
     /** Returns a PVector that describes the desired velocity */
-    public void towardsCenter(List<Boid> flock){
+    public void towardsCenter(List<Boid> flock, App win){
         PVector neighborCenter = new PVector(0, 0, 0);
         int total = 0;
         for (Boid other : flock) {
@@ -31,11 +32,20 @@ public class Boid {
 
         if (total > 0) {
             neighborCenter.div(total);
-            PVector direction = PVector.sub(neighborCenter, position);
 
-            direction.setMag(speedLimit);
-            direction.mult(0.05f);
-            velocity.add(direction);
+            // stick to center
+            PVector toCenter = PVector.sub(win.dimensions.copy().div(2), position);
+            float distanceToCenter = toCenter.mag();
+            toCenter.setMag(speedLimit);
+            toCenter.mult(distanceToCenter).mult(0.02f);
+
+            PVector desiredLocation = PVector.add(neighborCenter, toCenter);
+            PVector desiredDirection = PVector.sub(desiredLocation, position);
+
+            desiredDirection.setMag(speedLimit);
+            desiredDirection.mult(0.03f);
+
+            velocity.add(desiredDirection);
         }
     }
 
@@ -102,23 +112,18 @@ public class Boid {
         velocity.add(correction);
     }
 
-    private void positionUpdate(List<Boid> flock) {
+    private void positionUpdate(List<Boid> flock, App win) {
         this.collisionAvoidance(flock);
         this.matchVelocity(flock);
-        this.towardsCenter(flock);
+        this.towardsCenter(flock, win);
         this.velocity.limit(speedLimit);
         this.position.add(this.velocity);
     }
 
-    private float map(float x, float startX, float endX, float startY, float endY) {
-        float p = (x - startX)/endX;
-        return startY + p * (endY - startY);
-    }
-
     public void render(App window, List<Boid> flock) {
         this.bordersUpdate(window);
-        this.positionUpdate(flock);
+        this.positionUpdate(flock, window);
 
-        window.circle(position.x, position.y, 3);
+        window.circle(position.x, position.y, 2);
     }
 }

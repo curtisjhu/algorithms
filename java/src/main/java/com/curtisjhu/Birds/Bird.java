@@ -7,7 +7,6 @@ import java.util.List;
 public class Bird {
     private PVector position;
     private PVector velocity;
-    private float radius;
     private final float speedLimit = 2.5f;
     private final int visionField = 40;
 
@@ -19,35 +18,30 @@ public class Bird {
 
     /** Returns a PVector that describes the desired velocity */
     public void towardsCenter(List<Bird> flock){
-        PVector neighborCenter = new PVector(0, 0);
-        int total = 0;
+        PVector closestNeighbor = new PVector(0, 0, 0);
+        float minDistance = 100000f;
         for (Bird other : flock) {
             float d = other.position.dist(this.position);
-            if (d > 0 && d < visionField) {
-                neighborCenter.add(other.position);
-                total++;
+            if (d < minDistance) {
+                minDistance = d;
+                closestNeighbor = other.position;
             }
         }
 
-        if (total > 0) {
-            neighborCenter.div(total);
-            PVector direction = PVector.sub(neighborCenter, position);
-
-            direction.setMag(speedLimit);
-            direction.mult(0.007f);
-            velocity.add(direction);
-        }
+        PVector direction = PVector.sub(closestNeighbor, position);
+        direction.setMag(speedLimit);
+        direction.mult(0.05f);
+        velocity.add(direction);
     }
 
     public void collisionAvoidance(List<Bird> flock) {
-        int desiredSpace = 6;
-        int vision = 30;
+        int desiredSpace = 10;
         PVector avgDirection = new PVector(0, 0);
         int total = 0;
         for (Bird other : flock) {
             if (other != this) {
                 float d = other.position.dist(this.position);
-                if (d > 0 && d < vision) {
+                if (d > 0 && d < visionField) {
                     // Vector from other boid towards yourself.
                     PVector normal = PVector.sub(this.position, other.position);
                     normal.normalize();
@@ -55,10 +49,12 @@ public class Bird {
                     PVector direction = velocity.copy();
                     direction.normalize().div((float) Math.sqrt(2));
 
-                    double angle = Math.acos(PVector.dot(normal, direction));
-                    double tolerance = Math.PI / 6;
-                    if (angle < tolerance) {
-                        PVector oppositeDir = PVector.sub(direction, normal).mult(1f);
+                    double angle = PVector.angleBetween(normal, direction);
+                    int wingspan = 4;
+                    if (angle < Math.PI / 2 && d * Math.sin(angle) < wingspan) {
+                        PVector projection = normal.copy().mult(PVector.dot(direction, normal));
+                        PVector oppositeDir = PVector.sub(projection, normal);
+                        oppositeDir.mult(0.08f);
                         avgDirection.add(oppositeDir);
                     }
 

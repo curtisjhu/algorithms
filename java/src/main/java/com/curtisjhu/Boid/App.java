@@ -17,11 +17,11 @@ public class App extends PApplet {
 
     @Override
     public void settings() {
-        dimensions = new PVector(400, 400, 100);
+        dimensions = new PVector(600, 500, 400);
         size((int) dimensions.x, (int) dimensions.y);
         pixelDensity(2);
 
-        flock = new Flock(this, 700);
+        flock = new Flock(this, 1000);
     }
 
     @Override
