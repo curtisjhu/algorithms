@@ -10,7 +10,6 @@ module.exports = function(grunt) {
 					cwd: "src/",
 					src: "*/*.js",
 					dest: "build/",
-					ext: ".min.js",
 					extDot: "first"
 				}]
 		}
@@ -41,7 +40,7 @@ module.exports = function(grunt) {
 		main: {
 		  expand: true,
 		  cwd: 'src/',
-		  src: ['*/*.png', 'p5.min.js'],
+		  src: ['*/*.png', '*/*.jpg', '*/*.jpeg', 'p5.min.js'],
 		  dest: 'build/',
 		  filter: 'isFile',
 		},
@@ -60,7 +59,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
   
-	grunt.registerTask('default', ['uglify', 'htmlmin', 'copy']);
 	grunt.registerTask('clean', ['clean']);
+	grunt.registerTask('default', ['uglify', 'htmlmin', 'copy']);
 	grunt.registerTask('template', ['copy:template']);
   };
