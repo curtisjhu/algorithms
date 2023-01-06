@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "grunt",
+    "template": "template",
     "clean": "grunt clean",
     "run": "open build//index.html"
   },
