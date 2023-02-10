@@ -53,8 +53,6 @@ module.exports = function (grunt) {
 			build: {
 				options: {
 					compress: true,
-					sourceMap: false,
-					beautify: false,
 				},
 				files:indexJSPairs 
 			}
@@ -68,12 +66,23 @@ module.exports = function (grunt) {
                 files: indexHTMLPairs,
             },
         },
-		clean: ["dist"]
+		clean: ["dist"],
+		babel: {
+			options: {
+			  sourceMap: true,
+			  presets: ["@babel/preset-env"],
+			},
+			dist: {
+			  files: indexJSPairs,
+			},
+		  },
     });
 
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-htmlmin");
     grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.loadNpmTasks("grunt-babel")
+
     grunt.registerTask("default", ["uglify:dev", "htmlmin"]);
-    grunt.registerTask("build", ["clean", "uglify:build", "htmlmin"]);
+    grunt.registerTask("build", ["clean", 'uglify:build', "babel", "htmlmin"]);
 };

@@ -1,8 +1,7 @@
 #define cx_mul(a, b) vec2(a.x*b.x-a.y*b.y, a.x*b.y+a.y*b.x)
-
 uniform vec2 u_resolution;
 
-float mandelBrotSet(vec2 pos) {
+vec3 mandelBrotSet(vec2 pos) {
 
 	int i = 0, m = 100;
 	vec2 z = vec2(0.0, 0.0);
@@ -10,15 +9,15 @@ float mandelBrotSet(vec2 pos) {
 		z = cx_mul(z, z) + pos; 
 	}
 
-	return 1.0 - float(i / m);
+	return vec3(1.0 - float(i / m));
 }
 
 void main() {
 	vec2 p = gl_FragCoord.xy / u_resolution.xy;
 
-	p = p * 3.0 - 1.5;
+	p = p * 4.0 - 2.;
 
-	vec3 color = vec3(mandelBrotSet(p));
+	vec3 color = mandelBrotSet(p);
 
 	gl_FragColor = vec4(color, 1.0);
 
