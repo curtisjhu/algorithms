@@ -1,5 +1,5 @@
 Bars b;
-SelectionSort s;
+Sort s;
 import processing.sound.*;
 
 int prev;
@@ -9,7 +9,7 @@ void setup() {
   pixelDensity(2);
   b = new Bars(60);
   
-  s = new SelectionSort();
+  s = new InsertionSort();
   
   prev = 2000;
   b.show();
@@ -20,6 +20,5 @@ void draw() {
     prev = millis();
     s.sortStep(b.list);
     b.show(s.highlight);
-    s.swap(b.list);
   }
 }

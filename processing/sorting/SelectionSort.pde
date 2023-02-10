@@ -1,10 +1,8 @@
-class SelectionSort {
+class SelectionSort implements Sort {
   private int i;
-  public IntList highlight;
   
   public SelectionSort() {
     this.i = 0;
-    this.highlight = new IntList();
   }
   
   public void sortStep(int[] list) {
