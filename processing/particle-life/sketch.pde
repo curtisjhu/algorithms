@@ -2,7 +2,7 @@ Population particles;
 
 void setup() {
 	pixelDensity(2);
-	size(640, 320);
+	size(320, 320);
 	
 	particles = new Population(500, width, height);
 }

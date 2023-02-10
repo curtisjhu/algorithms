@@ -22,14 +22,14 @@ class Particle {
     position.add(velocity);
     velocity.setMag(0.9 * velocity.mag());
     
-    if (position.x > width)
-      position.x -= width;
-    else if (position.x < 0)
-      position.x += width;
-    if (position.y > height)
-      position.y -= height;
-    else if (position.y < 0)
-      position.y += height;
+    if (position.x > width + size)
+      position.x -= width + 2*size;
+    else if (position.x < -size)
+      position.x += width + 2*size;
+    if (position.y > height + size)
+      position.y -= height + 2*size;
+    else if (position.y < -size)
+      position.y += height + 2*size;
   }
   
   private color getRandomColor(int seed) {
