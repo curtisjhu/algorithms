@@ -9,7 +9,7 @@ void setup() {
   pixelDensity(2);
   b = new Bars(60);
   
-  s = new InsertionSort();
+  s = new SelectionSort();
   
   prev = 2000;
   b.show();
@@ -20,5 +20,6 @@ void draw() {
     prev = millis();
     s.sortStep(b.list);
     b.show(s.highlight);
+    s.swap(b.list);
   }
 }
