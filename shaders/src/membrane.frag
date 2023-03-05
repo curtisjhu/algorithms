@@ -1,5 +1,3 @@
-// Author: @patriciogv - 2015
-// Title: Tissue
 
 #ifdef GL_ES
 precision mediump float;
@@ -9,9 +7,6 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
-// Created by inigo quilez - iq/2013
-// License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-// http://www.iquilezles.org/www/articles/voronoilines/voronoilines.htm
 
 vec2 random2( vec2 p ) {
     return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);

@@ -2,9 +2,9 @@ Population particles;
 
 void setup() {
 	pixelDensity(2);
-	size(320, 320);
+	size(1280, 720);
 	
-	particles = new Population(500, width, height);
+	particles = new Population(1000, width, height);
 }
 
 

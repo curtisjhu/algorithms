@@ -30,10 +30,10 @@ class Population {
     // create attraction matrix
     // assuming number of groups is 4
     float[][] matrix = {
-      {0.7, 0.2, 0, 0},
-      {0, 0.7, 0.2, 0},
-      {0, 0, 0.7, 0.2},
-      {0.2, 0, 0, 0.7}
+      {0.7, 0.3, 0, 0},
+      {0, 0.7, 0.3, 0},
+      {0, 0, 0.7, 0.3},
+      {0.3, 0, 0, 0.7}
     };
     this.attractionMatrix = matrix;
 	}
