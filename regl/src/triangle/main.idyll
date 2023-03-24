@@ -1,2 +1,0 @@
-[var name:"selectVal" value:"test1" /]
-[Select value:selectVal options:`["test1", "test2"]`  /]

@@ -4,25 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "more "
+    "dev": "node index.js ",
+    "watch": "budo ./src/basic.js --live",
+    "grunt": "grunt"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "regl": "^2.1.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/preset-env": "^7.20.2",
+    "babelify": "^10.0.0",
     "browserify": "^17.0.0",
-    "grunt": "^1.5.3",
-    "grunt-babel": "^8.0.0",
-    "grunt-contrib-clean": "^2.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-htmlmin": "^3.1.0",
-    "grunt-contrib-jshint": "^3.2.0",
-    "grunt-contrib-uglify": "^5.2.2",
-    "tinyify": "^4.0.0"
+    "budo": "^11.8.4",
+    "control-panel": "^1.3.4",
+    "fail-nicely": "^2.0.0",
+    "float-hsl2rgb": "^1.0.2",
+    "glsl-colormap": "^1.0.1",
+    "glsl-random": "^0.0.5",
+    "glslify": "^7.1.1",
+    "insert-css": "^2.0.0",
+    "mouse-change": "^1.4.0",
+    "mouse-wheel": "^1.2.0",
+    "ndarray": "^1.0.19",
+    "ndarray-show": "^2.0.0",
+    "regl": "^2.1.0",
+    "simple-html-index": "^1.5.0",
+    "vue": "^3.2.47"
   }
 }

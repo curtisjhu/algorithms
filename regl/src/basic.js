@@ -1,4 +1,3 @@
-// Calling the regl module with no arguments creates a full screen canvas and
 // WebGL context, and then uses this context to initialize a new REGL instance
 const regl = require('regl')()
 
